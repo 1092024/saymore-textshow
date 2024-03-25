@@ -7,6 +7,7 @@ let happyball_btn, angryball_btn, sadball_btn, fearball_btn;
 let index, index_btn;
 let BallLoopTween, BallLoopTween2;
 let emotion_page;
+let happyvideo;
 
 const emotionball_config = {
     key: "emotionball",
@@ -32,15 +33,17 @@ const emotionball_config = {
         this.load.image('angryball', './img/angry_ball.png');
         this.load.image('sadball', './img/sad_ball.png');
         this.load.image('fearball', './img/fear_ball.png');
+        this.load.video('happy', './img/angry.mp4')
     },
     create: function () {
         this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(50).setTint("0xe8e6e1");
+
         happyball = this.add.image(emotionball_config.width * 0.2, emotionball_config.height / 2, 'happyball')
             .setOrigin(0.5, 0.5)
             .setScale(0.1)
             .setInteractive()
             .on('pointerdown', () => {
-                getWords('喜');
+                getWords(this, '喜');
                 ball_tween(this, happyball, angryball, sadball, fearball);
             });
         angryball = this.add.image(emotionball_config.width * 0.4, emotionball_config.height / 2, 'angryball')
@@ -48,7 +51,7 @@ const emotionball_config = {
             .setScale(0.1)
             .setInteractive()
             .on('pointerdown', () => {
-                getWords('怒');
+                getWords(this, '怒');
                 ball_tween(this, happyball, angryball, sadball, fearball);
             });
         sadball = this.add.image(emotionball_config.width * 0.6, emotionball_config.height / 2, 'sadball')
@@ -56,7 +59,7 @@ const emotionball_config = {
             .setScale(0.1)
             .setInteractive()
             .on('pointerdown', () => {
-                getWords('哀');
+                getWords(this, '哀');
                 ball_tween(this, happyball, angryball, sadball, fearball);
             });
         fearball = this.add.image(emotionball_config.width * 0.8, emotionball_config.height / 2, 'fearball')
@@ -64,13 +67,14 @@ const emotionball_config = {
             .setScale(0.1)
             .setInteractive()
             .on('pointerdown', () => {
-                getWords('懼');
+                getWords(this, '懼');
                 ball_tween(this, happyball, angryball, sadball, fearball);
             });
         BallLoopTween = ball_loop_tween(this, happyball, angryball, sadball, fearball);
     },
     update: function () {
-        if (words != null) {
+
+        if (words != null && happyvideo.isPlaying()== false ) {
             this.scene.launch('wordcloud');
             this.scene.pause('emotionball');
         }
@@ -292,27 +296,37 @@ function handleCollision(text1, text2) {
     text1.y -= directionY / 10;
 }
 
-function getWords(emo) {
+function getWords(scene, emo) {
     emotion_page = emo;
     var api;
     switch (emo) {
         case '喜': {
             api = happy_sheet;
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
             break;
         }
         case '怒': {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
             api = angry_sheet;
             break;
         }
         case '哀': {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
             api = sad_sheet;
             break;
         }
         case '懼': {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
             api = fear_sheet;
             break;
         }
         default: {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
             api = happy_sheet;
         }
     }
@@ -354,7 +368,7 @@ function ball_tween(scene, happy, angry, sad, fear) {
         scaleY: 0.02,
         x: emotionball_config.width - 190,
         y: 50,
-        ease: 'Power2'
+        ease: 'Power2',
     }), scene.tweens.add({
         targets: angry,
         duration: 1000,
@@ -486,4 +500,33 @@ function ball_loop_tween(scene, happy, angry, sad, fear) {
             ease: 'Back'
         })
     };
+}
+
+function playVideo(scene, emo) {
+    switch (emo) {
+        case '喜': {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
+            break;
+        }
+        case '怒': {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
+            break;
+        }
+        case '哀': {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
+            break;
+        }
+        case '懼': {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
+            break;
+        }
+        default: {
+            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo.play();
+        }
+    }
 }
