@@ -28,7 +28,7 @@ const emotionball_config = {
         }
     },
     preload: function () {
-        this.load.image('bg', './img/images.jpg');
+        this.load.image('bg', './img/bg.png');
         this.load.image('happyball', './img/happy_ball.png');
         this.load.image('angryball', './img/angry_ball.png');
         this.load.image('sadball', './img/sad_ball.png');
@@ -36,7 +36,7 @@ const emotionball_config = {
         this.load.video('happy', './img/angry.mp4')
     },
     create: function () {
-        this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(50).setTint("0xe8e6e1");
+        this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(0.2);
 
         happyball = this.add.image(emotionball_config.width * 0.2, emotionball_config.height / 2, 'happyball')
             .setOrigin(0.5, 0.5)
@@ -99,7 +99,7 @@ const wordcloud_config = {
         }
     },
     preload: function () {
-        this.load.image('bg', './img/images.jpg');
+        this.load.image('bg', './img/bg.png');
         this.load.image('w_bg', './img/wordcloud_bg.jpg');
         this.load.image('ink', './img/dot.png');
         this.load.image('index', './img/inkball.png');
