@@ -136,7 +136,7 @@ const wordcloud_config = {
         //     alpha: 1,
         //     ease: 'Linear',
         // })
-        happyball_btn = this.add.image(wordcloud_config.width - 190, 45, 'happyball')
+        happyball_btn = this.add.image(wordcloud_config.width - 190, 40, 'happyball')
             .setOrigin(0.5, 0.5)
             .setScale(0.02)
             .setInteractive()
