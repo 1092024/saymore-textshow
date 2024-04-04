@@ -8,6 +8,7 @@ let index, index_btn;
 let BallLoopTween, BallLoopTween2;
 let emotion_page;
 let happyvideo;
+let W_bg;
 
 const emotionball_config = {
     key: "emotionball",
@@ -33,7 +34,7 @@ const emotionball_config = {
         this.load.image('angryball', './img/angry_ball.png');
         this.load.image('sadball', './img/sad_ball.png');
         this.load.image('fearball', './img/fear_ball.png');
-        this.load.video('happy', './img/angry.mp4')
+        this.load.video('happy', './img/wait.mp4')
     },
     create: function () {
         this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(0.2);
@@ -74,7 +75,7 @@ const emotionball_config = {
     },
     update: function () {
 
-        if (words != null && happyvideo.isPlaying()== false ) {
+        if (words != null && happyvideo.isPlaying() == false) {
             this.scene.launch('wordcloud');
             this.scene.pause('emotionball');
         }
@@ -100,7 +101,7 @@ const wordcloud_config = {
     },
     preload: function () {
         this.load.image('bg', './img/bg.png');
-        this.load.image('w_bg', './img/wordcloud_bg.jpg');
+        this.load.image('w_bg', './img/wordcloud_bg.png');
         this.load.image('ink', './img/dot.png');
         this.load.image('index', './img/inkball.png');
         this.load.image('happyball', './img/happy_ball.png');
@@ -110,14 +111,31 @@ const wordcloud_config = {
     },
     create: function () {
         this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(50).setTint("0xe8e6e1");
-        let W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setScale(1.5).setAlpha(0);
 
-        this.tweens.add({
-            targets: W_bg,
-            duration: 1000,
-            alpha: 1,
-            ease: 'Linear',
-        })
+        switch (emotion_page) {
+            case "喜":
+                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                break;
+            case "怒":
+                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                break;
+            case "哀":
+                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                break;
+            case "懼":
+                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                break;
+            default:
+                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                break;
+        }
+
+        // this.tweens.add({
+        //     targets: W_bg,
+        //     duration: 1000,
+        //     alpha: 1,
+        //     ease: 'Linear',
+        // })
         happyball_btn = this.add.image(wordcloud_config.width - 190, 50, 'happyball')
             .setOrigin(0.5, 0.5)
             .setScale(0.02)
@@ -302,30 +320,30 @@ function getWords(scene, emo) {
     switch (emo) {
         case '喜': {
             api = happy_sheet;
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo = scene.add.video(0, 0, 'happy').setOrigin(0, 0).setLoop(false);;
             happyvideo.play();
             break;
         }
         case '怒': {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo = scene.add.video(0, 0, 'happy').setOrigin(0, 0).setLoop(false);;
             happyvideo.play();
             api = angry_sheet;
             break;
         }
         case '哀': {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo = scene.add.video(0, 0, 'happy').setOrigin(0, 0).setLoop(false);;
             happyvideo.play();
             api = sad_sheet;
             break;
         }
         case '懼': {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo = scene.add.video(0, 0, 'happy').setOrigin(0, 0).setLoop(false);;
             happyvideo.play();
             api = fear_sheet;
             break;
         }
         default: {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
+            happyvideo = scene.add.video(0, 0, 'happy').setOrigin(0, 0).setLoop(false);;
             happyvideo.play();
             api = happy_sheet;
         }
