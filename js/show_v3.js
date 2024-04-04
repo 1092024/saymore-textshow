@@ -39,7 +39,7 @@ const emotionball_config = {
     create: function () {
         this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(0.2);
 
-        happyball = this.add.image(emotionball_config.width * 0.2, emotionball_config.height / 2, 'happyball')
+        happyball = this.add.image(emotionball_config.width * 0.2, emotionball_config.height / 2 - 40, 'happyball')
             .setOrigin(0.5, 0.5)
             .setScale(0.1)
             .setInteractive()
