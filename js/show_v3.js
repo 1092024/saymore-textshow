@@ -4,7 +4,6 @@ let emitter;
 let words;
 let happyball, angryball, sadball, fearball;
 let happyball_btn, angryball_btn, sadball_btn, fearball_btn;
-let index, index_btn;
 let BallLoopTween, BallLoopTween2;
 let emotion_page;
 let happyvideo;
@@ -34,7 +33,10 @@ const emotionball_config = {
         this.load.image('angryball', './img/angry_ball.png');
         this.load.image('sadball', './img/sad_ball.png');
         this.load.image('fearball', './img/fear_ball.png');
-        this.load.video('happy', './img/wait.mp4')
+        this.load.video('happy', './img/happy_load.mp4')
+        this.load.video('angry', './img/angry_load.mp4')
+        this.load.video('sad', './img/sad_load.mp4')
+        this.load.video('fear', './img/fear_load.mp4')
     },
     create: function () {
         this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(0.2);
@@ -101,42 +103,36 @@ const wordcloud_config = {
     },
     preload: function () {
         this.load.image('bg', './img/bg.png');
-        this.load.image('w_bg', './img/wordcloud_bg.png');
+        this.load.image('happy_bg', './img/w_happy_bg.png');
+        this.load.image('angry_bg', './img/w_angry_bg.png');
+        this.load.image('sad_bg', './img/w_sad_bg.png');
+        this.load.image('fear_bg', './img/w_fear_bg.png');
         this.load.image('ink', './img/dot.png');
-        this.load.image('index', './img/inkball.png');
         this.load.image('happyball', './img/happy_ball.png');
         this.load.image('angryball', './img/angry_ball.png');
         this.load.image('sadball', './img/sad_ball.png');
         this.load.image('fearball', './img/fear_ball.png');
     },
     create: function () {
-        this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(50).setTint("0xe8e6e1");
 
         switch (emotion_page) {
             case "喜":
-                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                W_bg = this.add.image(0, 0, 'happy_bg').setOrigin(0, 0).setAlpha(1);
                 break;
             case "怒":
-                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                W_bg = this.add.image(0, 0, 'angry_bg').setOrigin(0, 0).setAlpha(1);
                 break;
             case "哀":
-                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                W_bg = this.add.image(0, 0, 'sad_bg').setOrigin(0, 0).setAlpha(1);
                 break;
             case "懼":
-                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                W_bg = this.add.image(0, 0, 'fear_bg').setOrigin(0, 0).setAlpha(1);
                 break;
             default:
-                W_bg = this.add.image(0, 0, 'w_bg').setOrigin(0, 0).setAlpha(1);
+                W_bg = this.add.image(0, 0, 'happy_bg').setOrigin(0, 0).setAlpha(1);
                 break;
         }
-
-        // this.tweens.add({
-        //     targets: W_bg,
-        //     duration: 1000,
-        //     alpha: 1,
-        //     ease: 'Linear',
-        // })
-        happyball_btn = this.add.image(wordcloud_config.width - 190, 40, 'happyball')
+        happyball_btn = this.add.image(wordcloud_config.width - 190, 49, 'happyball')
             .setOrigin(0.5, 0.5)
             .setScale(0.02)
             .setInteractive()
@@ -216,7 +212,14 @@ const wordcloud_config = {
                 })
                 break;
         }
-        for (let i = 0; i < words.length; i++) {
+        let range;
+        if(words.length > 30){
+            range = words.length - 31;
+        }else{
+            range = -1;
+        }
+        for (let i = words.length - 1; i > range; i--) {
+            console.log(i);
             let text = this.add.text(Phaser.Math.Between(0.1 * config.width, 3 * config.width), Phaser.Math.Between(0.2 * config.height, 0.9 * config.height), words[i], {
                 fontFamily: 'Noto Serif TC',
                 fontWeight: 'bold',
@@ -325,19 +328,19 @@ function getWords(scene, emo) {
             break;
         }
         case '怒': {
-            happyvideo = scene.add.video(0, 0, 'happy').setOrigin(0, 0).setLoop(false);;
+            happyvideo = scene.add.video(0, 0, 'angry').setOrigin(0, 0).setLoop(false);;
             happyvideo.play();
             api = angry_sheet;
             break;
         }
         case '哀': {
-            happyvideo = scene.add.video(0, 0, 'happy').setOrigin(0, 0).setLoop(false);;
+            happyvideo = scene.add.video(0, 0, 'sad').setOrigin(0, 0).setLoop(false);;
             happyvideo.play();
             api = sad_sheet;
             break;
         }
         case '懼': {
-            happyvideo = scene.add.video(0, 0, 'happy').setOrigin(0, 0).setLoop(false);;
+            happyvideo = scene.add.video(0, 0, 'fear').setOrigin(0, 0).setLoop(false);;
             happyvideo.play();
             api = fear_sheet;
             break;
@@ -518,33 +521,4 @@ function ball_loop_tween(scene, happy, angry, sad, fear) {
             ease: 'Back'
         })
     };
-}
-
-function playVideo(scene, emo) {
-    switch (emo) {
-        case '喜': {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
-            happyvideo.play();
-            break;
-        }
-        case '怒': {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
-            happyvideo.play();
-            break;
-        }
-        case '哀': {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
-            happyvideo.play();
-            break;
-        }
-        case '懼': {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
-            happyvideo.play();
-            break;
-        }
-        default: {
-            happyvideo = scene.add.video(0, 0, 'happy').setScale(0.5).setOrigin(0, 0).setLoop(false);;
-            happyvideo.play();
-        }
-    }
 }
