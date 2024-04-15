@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <title>結果</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #a123,
+        #myCanvas,
+        body {
+            padding: 0%;
+            margin: 0%;
+        }
+
+        #myChart {
+            height: auto;
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div id="a123" style="position: relative;z-index: -1">
+        <canvas id="myCanvas"></canvas>
+    </div>
+    <div id="a456" style="position: absolute;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var canvas2 = document.getElementById("myChart");
+        var ctx2 = canvas2.getContext("2d");
+        const chartElement = document.getElementById('myChart');
+
+        $('#myCanvas').attr('width', $(window).width());
+        $('#myCanvas').attr('height', $(window).height());
+        $('#a123').attr({
+            width: $(window).width(),
+            height: $(window).height()
+        })
+
+        var getUrlString = location.href;
+        var url = new URL(getUrlString);
+        let count = [];
+        let result = ['0', '0', '0', '0'];
+        count[0] = url.searchParams.get('happy');
+        count[1] = url.searchParams.get('angry');
+        count[2] = url.searchParams.get('sad');
+        count[3] = url.searchParams.get('fear');
+        console.log(Math.max(...count))
+
+        for (let i = 0; i < 4; i++) {
+            if (count[i] == Math.max(...count)) {
+                result[i] = '1';
+            }
+        }
+        var img = new Image();
+
+        // 设置图片的源文件
+        img.src = 'img/' + result[0] + result[1] + result[2] + result[3] + '.png'; // 替换为你的图片路径
+
+
+        // 图片加载完成后绘制到 Canvas 上
+        img.onload = function () {
+            let imgW, imgH, imgLW, imgLH;
+
+            if ($(window).width() / $(window).height() >= 9 / 16) {
+                console.log('OK')
+                imgH = $(window).height();
+                imgW = $(window).height() * (9 / 16);
+            }
+            else {
+                console.log('oook');
+                imgW = $(window).width();
+                imgH = $(window).width() * (16 / 9);
+            }
+            imgLW = $(window).width() / 2 - imgW / 2;
+            imgLH = $(window).height() / 2 - imgH / 2;
+            ctx.drawImage(img, imgLW, imgLH, imgW, imgH);
+
+            $('#a456').css({
+                top: imgLH + (imgH * 0.606),
+                left: imgLW + (imgW * 0.11),
+                width: imgW * 0.35
+            })
+        };
+
+        // 創建圓餅圖
+        var myPieChart = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: ['喜', '怒', '哀', '懼'],
+                datasets: [{
+                    data: [count[0], count[1], count[2], count[3]],
+                    backgroundColor: ['#BEBEBE', '#8C8C8C', '#3C3C3C', '#000000'],
+                    hoverOffset: 10,
+                }]
+            },
+            options: {
+                tooltips: {
+                    mode: 'index'
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'left',
+                        labels: {
+                            font: {
+                                size: 14
+                            },
+                            color: 'black'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
