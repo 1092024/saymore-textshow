@@ -213,8 +213,8 @@ const wordcloud_config = {
                 break;
         }
         let range;
-        if(words.length > 30){
-            range = words.length - 31;
+        if(words.length > 50){
+            range = words.length - 51;
         }else{
             range = -1;
         }
