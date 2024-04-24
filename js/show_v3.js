@@ -356,15 +356,6 @@ function getWords(scene, emo) {
     }
     $.post(api, data, function (res) {
         // console.log(res);
-        for (let i = 0; i < res.length; i++) {
-            for (let j = i; j < res.length; j++) {
-                if (res[j][1] > res[i][1]) {
-                    var temp = res[i];
-                    res[i] = res[j];
-                    res[j] = temp;
-                }
-            }
-        }
         words = res;
     })
 }
