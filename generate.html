@@ -9,15 +9,59 @@
 </head>
 
 <body>
+
+    <p id="title">目前資料：</p>
+
     <form action="result.html" method="get">
-        
-        <p>喜：<input name="happy" id="happy" type="number"></p>
-        <p>怒：<input name="angry" id="angry" type="number"></p>
-        <p>哀：<input name="sad" id="sad" type="number"></p>
-        <p>懼：<input name="fear" id="fear" type="number"></p>
+
+        <p>喜：<input name="happy" id="happy" type="number" value="0"></p>
+        <p>怒：<input name="angry" id="angry" type="number" value="0"></p>
+        <p>哀：<input name="sad" id="sad" type="number" value="0"></p>
+        <p>懼：<input name="fear" id="fear" type="number" value="0"></p>
 
         <button type="submit">生成</button>
     </form>
+    <script>
+        var api = "https://script.google.com/macros/s/AKfycbzx8r0lNK6XAkJk2SXieSaVDOGH-mfMG_90H7qar7ivLZzk1h_EXoTOT8NLeYWo4iZ3TA/exec"
+        var data = {
+            'status': 1,
+        }
+        var happy = 0;
+        var angry = 0;
+        var sad = 0;
+        var fear = 0;
+        $.post(api, data, function (res) {
+            console.log(res);
+            for (let i = 0; i < res.length; i++) {
+                $("#title").append('<p>' + res[i][0] + '：' + res[i][1] + '</p>')
+                switch (res[i][0]) {
+                    case '喜': {
+                        happy += 1;
+                        break;
+                    }
+                    case '怒': {
+                        angry += 1;
+                        break;
+                    }
+                    case '哀': {
+                        sad += 1;
+                        break;
+                    }
+                    case '懼': {
+                        fear += 1;
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+            $("#happy").val(happy);
+            $("#angry").val(angry);
+            $("#sad").val(sad);
+            $("#fear").val(fear);
+        })
+    </script>
 </body>
 
 </html>
