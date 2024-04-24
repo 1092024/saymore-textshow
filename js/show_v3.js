@@ -219,7 +219,7 @@ const wordcloud_config = {
             range = -1;
         }
         for (let i = words.length - 1; i > range; i--) {
-            console.log(i);
+            // console.log(i);
             let text = this.add.text(Phaser.Math.Between(0.1 * config.width, 3 * config.width), Phaser.Math.Between(0.2 * config.height, 0.9 * config.height), words[i], {
                 fontFamily: 'Noto Serif TC',
                 fontWeight: 'bold',
@@ -355,7 +355,7 @@ function getWords(scene, emo) {
         'status': 1,
     }
     $.post(api, data, function (res) {
-        console.log(res);
+        // console.log(res);
         for (let i = 0; i < res.length; i++) {
             for (let j = i; j < res.length; j++) {
                 if (res[j][1] > res[i][1]) {
